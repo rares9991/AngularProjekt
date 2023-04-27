@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "angular-projekt-47e08": {
+      "hosting": {
+        "Angular-Projekt-Rares": [
+          "angular-projekt-47e08"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "angular-projekt-47e08"
+  }
+}
