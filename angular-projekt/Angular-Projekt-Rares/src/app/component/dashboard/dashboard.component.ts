@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/shared/auth.service';
-import { Student } from '../../model/student';
+import { Food } from '../../model/food';
 import { DataService } from 'src/app/shared/data.service';
 
 @Component({
@@ -10,71 +10,75 @@ import { DataService } from 'src/app/shared/data.service';
 })
 export class DashboardComponent implements OnInit{
 
-  studentsList: Student[] = [];
-  studentObj : Student = {
-    id :  '',
-    first_name :  '',
-    last_name :  '',
-    email :  '',
-    mobile : '',
+  shoppingCart: Food[] = [];
+  foodObj : Food = {
+    id : '',
+    name :  '',
+    price_per_kg :  '',
+    price_per_piece :  '',
+    quantity_kg : '',
+    quantity_pieces: '',
   };
+
   id : string = '';
-  first_name : string = '';
-  last_name : string = '';
-  email : string = '';
-  mobile : string = '';
+  name : string = '';
+  price_per_kg : string = '';
+  price_per_piece : string = '';
+  quantity_kg : string = '';
+  quantity_pieces: string = '';
 
   constructor(private auth : AuthService, private data: DataService){ }
 
   ngOnInit(): void {
-    this.getAllStudents();
+    this.getShoppingCart();
   }
 
   //register(){
   //  this.auth.logout();
   //}
 
-  getAllStudents(){
-    this.data.getAllStudents().subscribe(res => {
-      this.studentsList = res.map((e:any) => {
+  getShoppingCart(){
+    this.data.getShoppingCart().subscribe(res => {
+      this.shoppingCart = res.map((e:any) => {
         const data = e.payload.doc.data();
         data.id = e.payload.doc.id;
         return data;
       })
     }, err =>{
-      alert('Error while fetching student data');
+      alert('Error while fetching food data');
     })
   }
 
   resetForm(){
     this.id = '';
-    this.first_name  = '';
-    this.last_name  = '';
-    this.email  = '';
-    this.mobile  = '';
+    this.name = '';
+    this.price_per_kg = '';
+    this.price_per_piece = '';
+    this.quantity_kg = '';
+    this.quantity_pieces = '';
   }
 
-  addStudent(){
-    if(this.first_name == '' || this.last_name == '' || this.mobile == '' || this.email == ''){
+  addFood(){
+    if(this.name == '' || this.quantity_kg == '' || this.quantity_pieces == '' || this.price_per_kg == '' || this.price_per_piece == '')
       alert('Fill all input fields');
-    }
-    this.studentObj.id = '';
-    this.studentObj.email = this.email;
-    this.studentObj.first_name = this.last_name;
-    this.studentObj.last_name = this.first_name;
-    this.studentObj.mobile = this.mobile;
+    this.foodObj.id = '';
+    this.foodObj.name = this.name;
+    this.foodObj.price_per_kg = this.price_per_kg;
+    this.foodObj.price_per_piece = this.price_per_piece;
+    this.foodObj.quantity_kg = this.quantity_kg;
+    this.foodObj.quantity_pieces = this.quantity_pieces; 
 
-    this.data.addStudent(this.studentObj);
+    this.data.addFood(this.foodObj);
     this.resetForm();
   }
 
-  updateStudent(){
+  updateFood(){
 
   }
 
-  deleteStudent(student: Student){
-    if(window.confirm('Are you sure you want to delete '+student.first_name+' '+student.last_name+' ?')){
-      this.data.deleteStudent(student);
+  deleteFood(food: Food){
+    if(window.confirm('Are you sure you want to delete '+food.name+' ?')){
+      this.data.deleteFood(food);
     }
   }
 }

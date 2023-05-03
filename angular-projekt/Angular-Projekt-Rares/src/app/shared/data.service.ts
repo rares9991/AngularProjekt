@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
-import { Student } from '../model/student';
+import { Food } from '../model/food';
 
 @Injectable({
   providedIn: 'root'
@@ -9,25 +9,25 @@ export class DataService {
 
   constructor(private afs : AngularFirestore) { }
 
-  //add student
-  addStudent(student: Student) {
-    student.id = this.afs.createId();
-    return this.afs.collection('/Students').add(student);
+  //add food
+  addFood(food: Food){
+    food.id = this.afs.createId();
+    return this.afs.collection('/ShoppingCart').add(food);
   }
 
-  //get all students
-  getAllStudents(){
-    return this.afs.collection('/Students').snapshotChanges();
+  //get the whole Shopping Cart
+  getShoppingCart(){
+    return this.afs.collection('/ShoppingCart').snapshotChanges();
   }
 
-  //delete a student
-  deleteStudent(student: Student){
-    return this.afs.doc('/Students/'+student.id).delete();
+  //delete some food
+  deleteFood(food: Food){
+    return this.afs.doc('/ShoppingCart/'+food.id).delete();
   }
-
-  //update student
-  updateStudent(student: Student){
-    this.deleteStudent(student);
-    this.addStudent(student);
+  
+  //update some food
+  updateFood(food: Food){
+    this.deleteFood(food);
+    this.addFood(food);
   }
 }
