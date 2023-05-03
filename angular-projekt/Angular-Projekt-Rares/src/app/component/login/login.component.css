@@ -1,0 +1,10 @@
+header{
+    text-align: center;
+    color: rgb(51, 0, 255);
+}
+.headerImg{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    object-fit: contain;
+}
